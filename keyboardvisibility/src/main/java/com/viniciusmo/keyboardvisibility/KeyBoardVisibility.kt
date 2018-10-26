@@ -4,64 +4,70 @@ import android.app.Activity
 import android.graphics.Rect
 import android.support.v4.app.Fragment
 import android.view.View
-import android.view.ViewGroup
 import android.view.ViewTreeObserver
 
-class KeyBoardVisibility private constructor(activity: Activity?, fragment: Fragment?) : ViewTreeObserver.OnGlobalLayoutListener {
-
-    constructor(fragment: Fragment) : this(null, fragment)
-
-    constructor(activity: Activity) : this(activity, null)
+class KeyBoardVisibility private constructor(getRootViewStrategy: GetRootViewStrategy,
+                                             private var screenDensity: Float) {
 
     companion object {
 
         private const val MAGIC_NUMBER = 200.0f
 
+        private fun getDensityScreen(from: Activity): Float {
+            return from.resources.displayMetrics.density
+        }
+
+        fun build(activity: Activity): KeyBoardVisibility {
+            val keyBoardVisibility = KeyBoardVisibility(ActivityGetRootViewStrategy(activity), getDensityScreen(activity))
+            return registerAutoDispose(activity, keyBoardVisibility)
+        }
+
+        fun build(fragment: Fragment): KeyBoardVisibility {
+            val activity = fragment.activity!!
+            val keyBoardVisibility = KeyBoardVisibility(FragmentGetRootViewStrategy(fragment), getDensityScreen(activity))
+            return registerAutoDispose(activity, keyBoardVisibility)
+        }
+
+        private fun registerAutoDispose(activity: Activity, keyBoardVisibility: KeyBoardVisibility): KeyBoardVisibility {
+            activity.application.registerActivityLifecycleCallbacks(object : WrapperActivityLifecycleCallback(activity) {
+                override fun onTargetActivityDestroyed() {
+                    keyBoardVisibility.dispose()
+                }
+            })
+            return keyBoardVisibility
+        }
+
     }
 
-    private var previousState:Boolean = false
-
-    private var screenDensity: Float
-    private var keyboarVisibilityListener: ((isVisible: Boolean) -> Unit)? = null
-    private var rootView: View
+    private var previousState: Boolean = false
+    private var keyboarVisibilityListener: KeyBoardVisibilityListener? = null
+    private var rootView: View = getRootViewStrategy.getRootView()
+    private var onGlobalLayoutListener: ViewTreeObserver.OnGlobalLayoutListener? = null
 
     init {
-        if (activity == null) {
-            rootView = getRootView(fragment!!)
-            screenDensity = getDensityScreen(fragment.activity!!)
-        } else {
-            rootView = getRootView(activity)
-            screenDensity = getDensityScreen(activity)
+        onGlobalLayoutListener = ViewTreeObserver.OnGlobalLayoutListener {
+            val rootViewArea = Rect()
+            rootView.getWindowVisibleDisplayFrame(rootViewArea)
+            val heightDiff = rootView.rootView.height - (rootViewArea.bottom - rootViewArea.top)
+            val dp = heightDiff / screenDensity
+            val isVisible = dp > MAGIC_NUMBER
+            if (previousState != isVisible) {
+                previousState = isVisible
+                if (isVisible) {
+                    this.keyboarVisibilityListener?.onKeyboardOpened?.invoke()
+                } else {
+                    this.keyboarVisibilityListener?.onKeyboardClose?.invoke()
+                }
+            }
         }
-        rootView.viewTreeObserver?.addOnGlobalLayoutListener(this)
+        rootView.viewTreeObserver?.addOnGlobalLayoutListener(onGlobalLayoutListener)
     }
 
-    override fun onGlobalLayout() {
-        val rootViewArea = Rect()
-        rootView.getWindowVisibleDisplayFrame(rootViewArea)
-        val heightDiff = rootView.rootView.height - (rootViewArea.bottom - rootViewArea.top)
-        val dp = heightDiff / screenDensity
-        val isVisible = dp > MAGIC_NUMBER
-        if (previousState != isVisible){
-            previousState = isVisible
-            keyboarVisibilityListener?.invoke(isVisible)
-        }
+    private fun dispose() {
+        rootView.viewTreeObserver?.removeOnGlobalLayoutListener { onGlobalLayoutListener }
     }
 
-    private fun getRootView(fragment: Fragment): View {
-        val rootView = fragment.view
-        return rootView!!
-    }
-
-    private fun getRootView(from: Activity): ViewGroup {
-        return (from.findViewById(android.R.id.content) as ViewGroup).getChildAt(0) as ViewGroup
-    }
-
-    private fun getDensityScreen(from: Activity): Float {
-        return from.resources.displayMetrics.density
-    }
-
-    fun addKeyboardVisibilityListener(keyboarVisibilityListener: (isVisible: Boolean) -> Unit) {
-        this.keyboarVisibilityListener = keyboarVisibilityListener
+    fun setListener(listener: KeyBoardVisibilityListener.() -> Unit) {
+        this.keyboarVisibilityListener = KeyBoardVisibilityListener().apply(listener)
     }
 }
