@@ -37,6 +37,9 @@ def getVersion = { ->
 }
 
 task publish << {
+    exec {
+        commandLine 'git', 'pull'
+    }
     def version = getVersion().tokenize( '.' )
     def minor = version[2].toInteger()
     minor+=1
