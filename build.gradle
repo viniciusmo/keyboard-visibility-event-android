@@ -42,7 +42,7 @@ task publish() {
     minor+=1
     def newVersion = version[0]+"."+version[1]+"."+minor
     exec {
-        commandLine 'git', 'tag', '--f', newVersion
+        commandLine 'git', 'tag', '--fa', newVersion
     }
     exec {
         commandLine 'git', 'push', '--tags'
