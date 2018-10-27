@@ -43,8 +43,8 @@ dependencies {
 **Step 3.** Code example
 ``` kotlin
 keyboard {
-    onClosed { alert("onKeyboardHide").show() }
-    onOpened { alert("onKeyboardVisible").show() }
+    onClosed { alert("onClosed").show() }
+    onOpened { alert("onOpened").show() }
 }
 
 ```
