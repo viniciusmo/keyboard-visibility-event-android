@@ -35,16 +35,17 @@ Add it in your root build.gradle at the end of repositories:
 
 Step 2. Add the dependency
 
-
+```
 dependencies {
-		implementation 'com.github.viniciusmo:keyboard-visibility-event-android:Tag'
+	implementation 'com.github.viniciusmo:keyboard-visibility-event-android:Tag'
 }
+```
 
 Step 3. Code example
+```kotlin
+keyboard {
+      onClosed { alert("onKeyboardHide").show() }
+      onOpened { alert("onKeyboardVisible").show() }
+}
 
- keyboard {
-            onClosed { alert("onKeyboardHide").show() }
-            onOpened { alert("onKeyboardVisible").show() }
-        }
-
-
+```
