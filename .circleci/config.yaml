@@ -17,12 +17,13 @@ jobs:
     steps:
       - checkout
       - run:
-          name: publish new version
+          name: config github username
           command: |
             git config --global user.email "ci@circleci.com"
             git config --global user.name "circleci"
-            git commit -am "New version"
-            git push --tags
+      - run:
+          name: deploy new version
+          command: ./gradlew publish
 
 workflows:
   version: 2

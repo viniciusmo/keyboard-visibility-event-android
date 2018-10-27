@@ -27,17 +27,25 @@ task clean(type: Delete) {
 }
 
 
-def getVersionName = { ->
+def getVersion = { ->
     def stdout = new ByteArrayOutputStream()
     exec {
         commandLine 'git', 'describe', '--tags'
         standardOutput = stdout
     }
-    return stdout.toString().trim()
+    return stdout.toString().trim().tokenize( '-' )[0]
 }
 
 task publish() {
-//    println ("uaheuaheuaheuahe")
-    println (getVersionName)
+    def version = getVersion().tokenize( '.' )
+    def minor = version[2].toInteger()
+    minor+=1
+    def newVersion = version[0]+"."+version[1]+"."+minor
+    exec {
+        commandLine 'git', 'tag', newVersion
+    }
+    exec {
+        commandLine 'git', 'push', '--tags'
+    }
 }
 
