@@ -56,7 +56,8 @@ Demo
 	  <img src="https://raw.githubusercontent.com/viniciusmo/keyboard-visibility-event-android/master/keyboard_example.gif" width="40%" height="40%">
 </p>
 
-Thanks
+Special thanks
 --------
-@yshrsmz
+<a href="https://github.com/yshrsmz">@yshrsmz</a>
+<a href="https://github.com/amadeu01">@amadeu01</a>
 
