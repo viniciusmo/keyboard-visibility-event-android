@@ -21,7 +21,7 @@ A DSL to handle soft keyboard visibility change event written in Kotlin.
 How to use?
 --------
 
-Step 1. Add it in your root build.gradle at the end of repositories:
+## Step 1. Add it in your root build.gradle at the end of repositories:
 
 ```gradle
 allprojects {
@@ -32,7 +32,7 @@ allprojects {
 }
 ```
 
-Step 2. Add the dependency
+## Step 2. Add the dependency
 
 ```gradle
 dependencies {
@@ -40,7 +40,7 @@ dependencies {
 }
 ```
 
-Step 3. Code example
+## Step 3. Code example
 ``` kotlin
 keyboard {
     onClosed { alert("onKeyboardHide").show() }
