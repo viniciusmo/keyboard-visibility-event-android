@@ -36,7 +36,7 @@ allprojects {
 
 ```gradle
 dependencies {
-	implementation 'com.github.viniciusmo:keyboard-visibility-event-android:Tag'
+	implementation 'com.github.viniciusmo:keyboard-visibility-event-android:1.0.4'
 }
 ```
 
