@@ -12,8 +12,8 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
 
         keyboard {
-            onClosed { alert("onKeyboardHide").show() }
-            onOpened { alert("onKeyboardVisible").show() }
+            onClosed { alert("onClosed").show() }
+            onOpened { alert("onOpened").show() }
         }
 
     }
