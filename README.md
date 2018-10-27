@@ -55,3 +55,8 @@ Demo
 <p align="center"> 
 	  <img src="https://raw.githubusercontent.com/viniciusmo/keyboard-visibility-event-android/master/keyboard_example.gif" width="40%" height="40%">
 </p>
+
+Thanks
+--------
+@yshrsmz
+
