@@ -42,7 +42,7 @@ dependencies {
 ```
 
 Step 3. Code example
-```kotlin
+```java
 keyboard {
       onClosed { alert("onKeyboardHide").show() }
       onOpened { alert("onKeyboardVisible").show() }
