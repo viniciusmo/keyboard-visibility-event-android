@@ -11,3 +11,40 @@
 	<img src="https://img.shields.io/badge/contributions-welcome-violet.svg" alt="Contributions welcome">
 	<img src="https://img.shields.io/badge/license-MIT-blue.svg" alt="License">
 </p>
+
+
+About
+--------
+A DSL to handle soft keyboard visibility change event written in Kotlin.
+
+
+How to use?
+--------
+
+ Step 1. Add the JitPack repository to your build file 
+
+Add it in your root build.gradle at the end of repositories:
+
+	allprojects {
+		repositories {
+			...
+			maven { url 'https://jitpack.io' }
+		}
+	}
+
+
+Step 2. Add the dependency
+
+
+dependencies {
+		implementation 'com.github.viniciusmo:keyboard-visibility-event-android:Tag'
+}
+
+Step 3. Code example
+
+ keyboard {
+            onClosed { alert("onKeyboardHide").show() }
+            onOpened { alert("onKeyboardVisible").show() }
+        }
+
+
