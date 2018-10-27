@@ -58,6 +58,6 @@ Demo
 
 Special thanks
 --------
-<a href="https://github.com/yshrsmz">@yshrsmz</a>
+<a href="https://github.com/yshrsmz">@yshrsmz</a></br>
 <a href="https://github.com/amadeu01">@amadeu01</a>
 
