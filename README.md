@@ -21,16 +21,15 @@ A DSL to handle soft keyboard visibility change event written in Kotlin.
 How to use?
 --------
 
- Step 1. Add the JitPack repository to your build file 
+Step 1. Add it in your root build.gradle at the end of repositories:
 
-Add it in your root build.gradle at the end of repositories:
 ```gradle
-	allprojects {
-		repositories {
-			...
-			maven { url 'https://jitpack.io' }
-		}
+allprojects {
+	repositories {
+		...
+		maven { url 'https://jitpack.io' }
 	}
+}
 ```
 
 Step 2. Add the dependency
@@ -44,8 +43,8 @@ dependencies {
 Step 3. Code example
 ```java
 keyboard {
-      onClosed { alert("onKeyboardHide").show() }
-      onOpened { alert("onKeyboardVisible").show() }
+    onClosed { alert("onKeyboardHide").show() }
+    onOpened { alert("onKeyboardVisible").show() }
 }
 
 ```
