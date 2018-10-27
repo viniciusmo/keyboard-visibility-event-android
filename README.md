@@ -53,5 +53,5 @@ Demo
 --------
 
 <p align="center"> 
-	  <img src="https://raw.githubusercontent.com/viniciusmo/keyboard-visibility-event-android/master/keyboard_example.gif">
+	  <img src="https://raw.githubusercontent.com/viniciusmo/keyboard-visibility-event-android/master/keyboard_example.gif" width="50%" height="50%">
 </p>
