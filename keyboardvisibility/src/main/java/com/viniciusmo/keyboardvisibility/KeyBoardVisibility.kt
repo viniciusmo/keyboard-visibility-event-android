@@ -40,7 +40,7 @@ class KeyBoardVisibility private constructor(getRootViewStrategy: GetRootViewStr
     }
 
     private var previousState: Boolean = false
-    private var keyboarVisibilityListener: KeyBoardVisibilityListener? = null
+    private var visibilityListener: KeyboardVisibilityListener? = null
     private var rootView: View = getRootViewStrategy.getRootView()
     private var onGlobalLayoutListener: ViewTreeObserver.OnGlobalLayoutListener? = null
 
@@ -54,9 +54,9 @@ class KeyBoardVisibility private constructor(getRootViewStrategy: GetRootViewStr
             if (previousState != isVisible) {
                 previousState = isVisible
                 if (isVisible) {
-                    this.keyboarVisibilityListener?.onKeyboardOpened?.invoke()
+                    this.visibilityListener?.onKeyboardOpened?.invoke()
                 } else {
-                    this.keyboarVisibilityListener?.onKeyboardClose?.invoke()
+                    this.visibilityListener?.onKeyboardClose?.invoke()
                 }
             }
         }
@@ -67,7 +67,7 @@ class KeyBoardVisibility private constructor(getRootViewStrategy: GetRootViewStr
         rootView.viewTreeObserver?.removeOnGlobalLayoutListener { onGlobalLayoutListener }
     }
 
-    fun setListener(listener: KeyBoardVisibilityListener.() -> Unit) {
-        this.keyboarVisibilityListener = KeyBoardVisibilityListener().apply(listener)
+    fun setListener(initBlock: KeyboardVisibilityListenerBuilder.() -> Unit) {
+        this.visibilityListener = KeyboardVisibilityListenerBuilder().apply(initBlock).build()
     }
 }
